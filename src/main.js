@@ -1,3 +1,14 @@
+function testFeed() {
+  const ss = SpreadsheetApp.openById("YOUR_SHEET_ID"); 
+  const sheet = ss.getSheetByName("Live Shows (11)"); // or whatever matches
+  const data = sheet.getDataRange().getValues();
+
+  const xml = generateFeedFromSheet(sheet, data); 
+  Logger.log(xml); // in IDE: View → Logs 
+  return xml; // if you want clasp run to see it
+}
+
+
 function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu("XML Feed")
