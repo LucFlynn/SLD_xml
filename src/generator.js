@@ -1,7 +1,13 @@
-function generateFeedFromSheet() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getActiveSheet(); // grab whichever tab user is on
-  const data = sheet.getDataRange().getValues();
+function generateFeedFromSheet(sheet, data) {
+  // If no parameters provided, fall back to active sheet (for add-on menu usage)
+  if (!sheet) {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    sheet = ss.getActiveSheet();
+  }
+  if (!data) {
+    data = sheet.getDataRange().getValues();
+  }
+
   const headers = data[0];
   const rows = data.slice(1);
 
