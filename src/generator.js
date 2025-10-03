@@ -8,13 +8,16 @@ function generateFeedFromSheet(sheet, data) {
     data = sheet.getDataRange().getValues();
   }
 
-  const headers = data[0];
+  const headers = data[0].map(h => String(h).trim()); // normalize headers
   const rows = data.slice(1);
 
-  // validate required headers
-  requiredHeaders.forEach(h => {
-    if (!headers.includes(h)) {
-      throw new Error("Missing required header: " + h);
+  // validate required headers (case-insensitive, trimmed)
+  const normalizedRequired = requiredHeaders.map(h => h.toLowerCase().trim());
+  const normalizedHeaders = headers.map(h => h.toLowerCase().trim());
+
+  requiredHeaders.forEach((h, i) => {
+    if (!normalizedHeaders.includes(normalizedRequired[i])) {
+      throw new Error(`Missing required header: "${h}". Found headers: ${headers.join(', ')}`);
     }
   });
 
